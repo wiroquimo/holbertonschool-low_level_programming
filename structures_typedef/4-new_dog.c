@@ -29,11 +29,11 @@ dog_t *new_dog(char *name, float age, char *owner)
 	dog_t *puppie;
 	int name_length = 0, owner_length = 0, i;
 
-	name_length = _strlen(name);
-	owner_length = _strlen(owner);
-
 	if (name == NULL || owner == NULL)
 		return (NULL);
+
+	name_length = _strlen(name);
+	owner_length = _strlen(owner);
 
 	puppie = malloc(sizeof(dog_t));
 	if (puppie == NULL)
