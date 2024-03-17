@@ -2,7 +2,7 @@
 #include "dog.h"
 
 /**
- * _strlen - function that returns the length of a string.
+ * _strlen - function that returns the length of a string
  * @s: string to be measured
  *
  * Return: the length of a string
@@ -18,35 +18,33 @@ int _strlen(char *s)
 }
 
 /**
- * new_dog - Function that creates a new type dog struct.
- * @name: Parameter name.
- * @age: Parameter age.
- * @owner:Paramter owner.
- * Return: A type struct dog.
+ * new_dog - Function that creates a new type dog struct
+ * @name: Parameter name
+ * @age: Parameter age
+ * @owner:Paramter owner
+ *
+ * Return: A type struct dog
  */
 dog_t *new_dog(char *name, float age, char *owner)
 {
 	dog_t *puppie;
-	int name_length = 0, owner_length = 0, i;
+	int i = 0;
 
 	if (name == NULL || owner == NULL)
 		return (NULL);
-
-	name_length = _strlen(name);
-	owner_length = _strlen(owner);
 
 	puppie = malloc(sizeof(dog_t));
 	if (puppie == NULL)
 		return (NULL);
 
-	puppie->name = malloc(name_length + 1);
+	puppie->name = malloc(_strlen(name) + 1);
 	if (puppie->name == NULL)
 	{
 		free(puppie);
 		return (NULL);
 	}
 
-	puppie->owner = malloc(owner_length + 1);
+	puppie->owner = malloc(_strlen(owner) + 1);
 	if (puppie->owner == NULL)
 	{
 		free(puppie->name);
@@ -54,13 +52,13 @@ dog_t *new_dog(char *name, float age, char *owner)
 		return (NULL);
 	}
 
-	for (i = 0; i < (name_length + 1); i++)
-		puppie->name[i] = name[i];
+	for (; *name;)
+		puppie->name[i++] = *name++;
 
 	puppie->age = age;
 
-	for (i = 0; i < (owner_length + 1); i++)
-		puppie->owner[i] = owner[i];
+	for (i = 0; *owner;)
+		puppie->owner[i++] = *owner++;
 
 	return (puppie);
 }
