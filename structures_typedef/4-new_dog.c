@@ -3,20 +3,20 @@
 
 /**
  * _strlen - function that returns the length of a string.
- * @s: char *s String to be processed
+ * @s: string to be measured
+ *
  * Return: the length of a string
  */
 int _strlen(char *s)
 {
-	int len;
+	int length = 0;
 
-	len = 0;
-	while (s[len] != '\0')
-	{
-		++len;
-	}
-	return (len);
+	while (s[length])
+		length++;
+
+	return (length);
 }
+
 /**
  * new_dog - Function that creates a new type dog struct.
  * @name: Parameter name.
