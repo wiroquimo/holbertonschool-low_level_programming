@@ -28,7 +28,7 @@ int _strlen(char *s)
 dog_t *new_dog(char *name, float age, char *owner)
 {
 	dog_t *puppie;
-	int i = 0;
+	int i;
 
 	if (name == NULL || owner == NULL)
 		return (NULL);
@@ -52,13 +52,14 @@ dog_t *new_dog(char *name, float age, char *owner)
 		return (NULL);
 	}
 
-	for (; *name; i++)
-		puppie->name[i] = *name++;
+	for (i = 0; name[i] != '\0'; i++)
+		puppie->name[i] = name[i];
 
 	puppie->age = age;
 
-	for (i = 0; *owner; i++)
-		puppie->owner[i] = *owner++;
+	for (i = 0; owner[i] != '\0'; i++)
+		puppie->owner[i] = owner[i];
+
 
 	return (puppie);
 }
