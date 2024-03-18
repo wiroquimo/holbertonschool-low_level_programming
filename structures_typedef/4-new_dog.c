@@ -2,7 +2,7 @@
 #include "dog.h"
 
 /**
- * _strlen - function that returns the length of a string.
+ * _strlen - function that returns the length of a string
  * @s: char *s string to be measured
  *
  * Return: the length of s string
@@ -18,12 +18,14 @@ int _strlen(char *s)
 	}
 	return (len);
 }
+
 /**
- * new_dog - Function that creates a new type dog struct.
- * @name: Parameter name.
- * @age: Parameter age.
- * @owner:Paramter owner.
- * Return: A type struct dog.
+ * new_dog - Function that creates a new type dog struct
+ * @name: Parameter name
+ * @age: Parameter age
+ * @owner:Paramter owner
+ *
+ * Return: A type struct dog
  */
 dog_t *new_dog(char *name, float age, char *owner)
 {
@@ -55,12 +57,12 @@ dog_t *new_dog(char *name, float age, char *owner)
 		return (NULL);
 	}
 
-	for (i = 0; i < (name_length + 1); i++)
+	for (i = 0; name[i] =! '\0'; i++)
 		puppie->name[i] = name[i];
 
 	puppie->age = age;
 
-	for (i = 0; i < (owner_length + 1); i++)
+	for (i = 0; owner[i] =! '\0'; i++)
 		puppie->owner[i] = owner[i];
 
 	return (puppie);
