@@ -9,14 +9,12 @@
  */
 int _strlen(char *s)
 {
-	int len;
+	int length = 0;
 
-	len = 0;
-	while (s[len] != '\0')
-	{
-		++len;
-	}
-	return (len);
+	while (s[length])
+		length++;
+
+	return (length);
 }
 
 /**
@@ -57,12 +55,12 @@ dog_t *new_dog(char *name, float age, char *owner)
 		return (NULL);
 	}
 
-	for (i = 0; name[i] != '\0'; i++)
+	for (i = 0; i < (name_length + 1); i++)
 		puppie->name[i] = name[i];
 
 	puppie->age = age;
 
-	for (i = 0; owner[i] != '\0'; i++)
+	for (i = 0; i < (owner_length + 1); i++)
 		puppie->owner[i] = owner[i];
 
 	return (puppie);
