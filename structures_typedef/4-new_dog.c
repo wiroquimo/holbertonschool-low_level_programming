@@ -18,10 +18,28 @@ int _strlen(char *s)
 }
 
 /**
+ * _strcpy - Function that copies a string
+ * @dest: *dest buffer pointed to by dest
+ * @src: *src string pointed to by src
+ *
+ * Return: char*, the pointer to dest
+ */
+char *_strcpy(char *dest, char *src)
+{
+	int i;
+
+	for (i = 0; src[i]; i++)
+		dest[i] = src[i];
+	dest[i] = '\0';
+
+	return (dest);
+}
+
+/**
  * new_dog - Function that creates a new type dog struct
  * @name: Parameter name
  * @age: Parameter age
- * @owner:Paramter owner
+ * @owner: Paramter owner
  *
  * Return: A type struct dog
  */
@@ -52,15 +70,11 @@ dog_t *new_dog(char *name, float age, char *owner)
 		return (NULL);
 	}
 
-	for (i = 0; name[i]; i++)
-		puppie->name[i] = name[i];
-	puppie->name[i] = '\0';
+	_strcpy(puppie->name, name);
 
 	puppie->age = age;
 
-	for (i = 0; owner[i]; i++)
-		puppie->owner[i] = owner[i];
-	puppie->owner[i] = '\0';
+	_strcpy(puppie->owner, owner);
 
 	return (puppie);
 }
