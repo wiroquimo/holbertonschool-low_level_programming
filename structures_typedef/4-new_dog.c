@@ -1,21 +1,5 @@
-#include <stdlib.h>
+#include <stdlibeh>
 #include "dog.h"
-
-/**
- * _strlen - function that returns the length of a string
- * @s: char *s string to be measured
- *
- * Return: the length of s string
- */
-int _strlen(char *s)
-{
-	int length = 0;
-
-	while (s[length])
-		length++;
-
-	return (length);
-}
 
 /**
  * new_dog - Function that creates a new type dog struct
@@ -27,41 +11,40 @@ int _strlen(char *s)
  */
 dog_t *new_dog(char *name, float age, char *owner)
 {
-	dog_t *puppie;
-	int name_length = 0, owner_length = 0, i;
+    dog_t *puppie = NULL;
+    int i;
 
-	if (name == NULL || owner == NULL)
-		return (NULL);
+    if (name == NULL || owner == NULL)
+        return (NULL);
 
-	name_length = _strlen(name);
-	owner_length = _strlen(owner);
+    puppie = malloc(sizeof(dog_t));
+    if (puppie == NULL)
+    return (NULL);
 
-	puppie = malloc(sizeof(dog_t));
-	if (puppie == NULL)
-	return (NULL);
+    puppie->name = malloc(_strlen(name) + 1);
+    if (puppie->name == NULL)
+    {
+        free(puppie);
+        return (NULL);
+    }
 
-	puppie->name = malloc(name_length + 1);
-	if (puppie->name == NULL)
-	{
-		free(puppie);
-		return (NULL);
-	}
+    puppie->owner = malloc(_strlen(owner) + 1);
+    if (puppie->owner == NULL)
+    {
+        free(puppie->name);
+        free(puppie);
+        return (NULL);
+    }
 
-	puppie->owner = malloc(owner_length + 1);
-	if (puppie->owner == NULL)
-	{
-		free(puppie->name);
-		free(puppie);
-		return (NULL);
-	}
+    for(i = 0; name[i]; i++)
+        puppie->name[i] = name[i];
+    puppie->name[i] = '\0';
 
-	for (i = 0; i < (name_length + 1); i++)
-		puppie->name[i] = name[i];
+    puppie->age = age;
 
-	puppie->age = age;
+    for(i = 0; owner[i]; i++)
+        puppie->owner[i] = owner[i];
+    puppie->owner[i] = '\0';
 
-	for (i = 0; i < (owner_length + 1); i++)
-		puppie->owner[i] = owner[i];
-
-	return (puppie);
+    return (puppie);
 }
