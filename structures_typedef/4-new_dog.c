@@ -2,6 +2,22 @@
 #include "dog.h"
 
 /**
+ * _strlen - function that returns the length of a string.
+ * @s: string to be measured
+ *
+ * Return: the length of string s
+ */
+int _strlen(char *s)
+{
+	int length = 0;
+
+	while (s[length])
+		length++;
+
+	return (length);
+}
+
+/**
  * new_dog - Function that creates a new type dog struct
  * @name: Parameter name
  * @age: Parameter age
