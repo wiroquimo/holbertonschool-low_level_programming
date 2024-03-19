@@ -2,10 +2,10 @@
 #include "dog.h"
 
 /**
- * _strlen - function that returns the length of a string.
+ * _strlen - function that returns the length of a string
  * @s: string to be measured
  *
- * Return: the length of string s
+ * Return: int, the length of string s
  */
 int _strlen(char *s)
 {
@@ -18,7 +18,7 @@ int _strlen(char *s)
 }
 
 /**
- * _strcpy - Function that copies a string
+ * _strcpy - function that copies a string
  * @dest: *dest buffer pointed to by dest
  * @src: *src string pointed to by src
  *
@@ -36,12 +36,12 @@ char *_strcpy(char *dest, char *src)
 }
 
 /**
- * new_dog - Function that creates a new type dog struct
- * @name: Parameter name
- * @age: Parameter age
- * @owner: Paramter owner
+ * new_dog - function that creates a new type dog struct
+ * @name: parameter name
+ * @age: parameter age
+ * @owner: parameter owner
  *
- * Return: A type struct dog
+ * Return: a type struct dog
  */
 dog_t *new_dog(char *name, float age, char *owner)
 {
