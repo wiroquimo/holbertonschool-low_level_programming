@@ -9,15 +9,12 @@
  */
 unsigned int _strlen(const char *s)
 {
-	unsigned int length = 0;
+	unsigned int i = 0;
 
-	while (*s)
-	{
-		length++;
-		s++;
-	}
+	for (; *(s + i) != '\0'; i++)
+		;
 
-	return (length);
+	return (i);
 }
 
 /**
