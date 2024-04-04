@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include "lists.h"
 
 /**
@@ -45,15 +44,15 @@ char *_strdup(const char *str)
 }
 
 /**
- * add_node_end - adds a new node at the end of a list_t list
- * @head: Pointer to the pointer of beginning of the list_t list
- * @str: String to be added
+ * add_node_end - function that adds a new node at the end of a list_t list
+ * @head: pointer to pointer to the beginning of the list_t list
+ * @str: literal string to be added
  *
- * Return: New node added
+ * Return: the address of the new element, or NULL if it failed
  */
 list_t *add_node_end(list_t **head, const char *str)
 {
-	list_t *new_node = NULL, *current_node = NULL;
+	list_t *new_node = NULL, *i = NULL;
 
 	new_node = (list_t *)malloc(sizeof(list_t));
 	if (new_node == NULL)
@@ -67,11 +66,10 @@ list_t *add_node_end(list_t **head, const char *str)
 		*head = new_node;
 	else
 	{
-		current_node = *head;
-		while (current_node->next != NULL)
-			current_node = current_node->next;
+		for (i = *head; i->next != NULL; i = i->next)
+			;
 
-		current_node->next = new_node;
+		i->next = new_node;
 	}
 
 	return (new_node);
