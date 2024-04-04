@@ -45,7 +45,7 @@ char *_strdup(const char *str)
 
 /**
  * add_node_end - function that adds a new node at the end of a list_t list
- * @head: pointer to pointer to the beginning of the list_t list
+ * @head: pointer to pointer to the list_t list
  * @str: literal string to be added
  *
  * Return: the address of the new element, or NULL if it failed
