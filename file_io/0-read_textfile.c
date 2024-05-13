@@ -54,13 +54,5 @@ ssize_t read_textfile(const char *filename, size_t letters)
 		return (0);
 	}
 
-	if (close(file_descriptor) == -1)
-	{
-		free(buffer);
-		return (0);
-	}
-
-	free(buffer);
-
 	return (final_letters);
 }

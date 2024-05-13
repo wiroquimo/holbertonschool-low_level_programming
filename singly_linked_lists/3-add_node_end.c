@@ -8,9 +8,9 @@
  */
 unsigned int _strlen(const char *s)
 {
-	unsigned int i = 0;
+	unsigned int i;
 
-	for (; *(s + i) != '\0'; i++)
+	for (i = 0; *(s + i) != '\0'; i++)
 		;
 
 	return (i);
@@ -25,7 +25,7 @@ unsigned int _strlen(const char *s)
 char *_strdup(const char *str)
 {
 
-	unsigned int i = 0, length = 0;
+	unsigned int i, length = 0;
 	char *s = NULL;
 
 	if (str == NULL)
@@ -37,7 +37,7 @@ char *_strdup(const char *str)
 	if (s == NULL)
 		return (NULL);
 
-	for (; i < (length + 1); i++)
+	for (i = 0; i < (length + 1); i++)
 		*(s + i) = *(str + i);
 
 	return (s);
