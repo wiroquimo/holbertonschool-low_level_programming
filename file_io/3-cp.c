@@ -3,51 +3,71 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-void error(int code, const char *str, const char *file)
+/**
+ * print_error_s - Prints an error message with an string an exit with a code
+ * @msg: Error message
+ * @arg: Argument to be passed of type char *
+ * @code: Exit code error
+ *
+ * Return: void
+ */
+void print_error_s(const char *msg, const char *arg, int code)
 {
-	dprintf(STDERR_FILENO, str, file);
+	dprintf(STDERR_FILENO, "%s%s\n", msg, arg);
 	exit(code);
 }
+
+
 /**
- * main - Copy content of a source file to the destination file
- * @argc: numbers of arguments
- * @argv: content of the arguments
- * Return: 0 if it succeeds
+ * print_error_d - Prints an error message with a number an exit with a code
+ * @msg: Error message
+ * @arg: Argument to be passed of type int
+ * @code: Exit code error
+ *
+ * Return: void
  */
-int main(int argc, char *argv[])
+void print_error_d(const char *msg, int arg, int code)
 {
-int fd_from, fd_to, read_bytes;
-char buffer[1024];
-
-/* vérif le nombre d'argv (commmande, fichier source, fichier destination) */
-if (argc != 3)
-error(97, "Usage: cp file_from file_to\n", "");
-
-fd_from = open(argv[1], O_RDONLY); /* ouvre fichier source */
-if (fd_from == -1)
-error(98, "Error: Can't read from file %s\n", argv[1]);
-
-/* ouvre fichier destination ou le crée */
-fd_to = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, 0664);
-if (fd_to == -1)
-error(99, "Error: Can't write to %s\n", argv[2]);
-
-/* lit fd_from jusqu'à qu'il n'y ai plus d'octet à lire */
-while ((read_bytes = read(fd_from, buffer, 1024)) > 0)
-{
-	/* écrit et vérifie si une erreur c'est produite */
-	if (write(fd_to, buffer, read_bytes) != read_bytes)
-		error(99, "Error: Can't write to %s\n", argv[2]);
+	dprintf(STDERR_FILENO, "%s%d\n", msg, arg);
+	exit(code);
 }
 
-if (read_bytes == -1) /* vérif si une erreur de lecture c'est produite */
-error(98, "Error: Can't read from file %s\n", argv[1]);
+/**
+ * main - Copies the content of a file to another file
+ * @argc: Size of argv
+ * @argv: Array of arguments
+ *
+ * Return: 0 for success, 1 otherwise
+ */
+int main(int argc, char **argv)
+{
+	int fd_from, fd_to;
+	ssize_t bytes_readed, bytes_written;
+	char buffer[1024];
 
-if (close(fd_from) == -1) /* close source file */
-error(100, "Error: Can't close fd %d\n", argv[1]);
+	if (argc != 3)
+		print_error_s("Usage: cp file_from file_to", "", 97);
+	fd_from = open(argv[1], O_RDONLY);
+	if (fd_from == -1)
+		print_error_s("Error: Can't read from file ", argv[1], 98);
 
-if (close(fd_to) == -1) /* close destination file */
-error(100, "Error: Can't close fd %d\n", argv[2]);
+	fd_to = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC | O_APPEND, 00664);
+	if (fd_to == -1)
+		print_error_s("Error: Can't write to ", argv[2], 99);
 
-return (0);
+	while ((bytes_readed = read(fd_from, buffer, 1024)) > 0)
+	{
+		bytes_written = write(fd_to, buffer, bytes_readed);
+		if (bytes_written == -1)
+			print_error_s("Error: Can't write to ", argv[2], 99);
+	}
+	if (bytes_readed == -1)
+		print_error_s("Error: Can't read from file ", argv[1], 98);
+
+	if (close(fd_from) == -1)
+		print_error_d("Error: Can't close fd ", fd_from, 100);
+	if (close(fd_to) == -1)
+		print_error_d("Error: Can't close fd ", fd_from, 100);
+
+	return (0);
 }
