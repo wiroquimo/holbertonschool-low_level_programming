@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 		if (write(fto, buff, rd) != rd)
 		{
 			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
-			exit(100); // Changed exit code to 100 as required
+			exit(100);
 		}
 	}
 	if (rd == -1)
