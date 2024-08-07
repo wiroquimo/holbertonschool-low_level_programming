@@ -70,7 +70,7 @@ int main(int argc, char **argv)
 		if (r == -1)
 			break;
 		w = write(fd_dest_open, buffer, r);
-		if (w != r)
+		if ((fd_dest_open == -1) || (w != r))
 			exit_99(argv[2]);
 		r = read(fd_src_open, buffer, 1024);
 	} while (r > 0);
