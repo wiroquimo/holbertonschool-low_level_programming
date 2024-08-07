@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
         dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
         close(ffrom);
         close(fto);
-        exit(98);
+        exit(98); 
     }
     clf = close(ffrom);
     clt = close(fto);
