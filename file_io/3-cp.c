@@ -3,110 +3,51 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-/**
- * close_errchk - closes a file descriptor and prints
- * an error message if it fails
- *
- * @fd: file descriptor to close
- *
- * Return: 0 on success, -1 on failure
- */
-int close_errchk(int fd)
+void error(int code, const char *str, const char *file)
 {
-	int err;
+	dprintf(STDERR_FILENO, str, file);
+	exit(code);
+}
+/**
+ * main - Copy content of a source file to the destination file
+ * @argc: numbers of arguments
+ * @argv: content of the arguments
+ * Return: 0 if it succeeds
+ */
+int main(int argc, char *argv[])
+{
+int fd_from, fd_to, read_bytes;
+char buffer[1024];
 
-	err = close(fd);
-	if (err == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
-		return (100);
-	}
-	return (0);
+/* vérif le nombre d'argv (commmande, fichier source, fichier destination) */
+if (argc != 3)
+error(97, "Usage: cp file_from file_to\n", "");
+
+fd_from = open(argv[1], O_RDONLY); /* ouvre fichier source */
+if (fd_from == -1)
+error(98, "Error: Can't read from file %s\n", argv[1]);
+
+/* ouvre fichier destination ou le crée */
+fd_to = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, 0664);
+if (fd_to == -1)
+error(99, "Error: Can't write to %s\n", argv[2]);
+
+/* lit fd_from jusqu'à qu'il n'y ai plus d'octet à lire */
+while ((read_bytes = read(fd_from, buffer, 1024)) > 0)
+{
+	/* écrit et vérifie si une erreur c'est produite */
+	if (write(fd_to, buffer, read_bytes) != read_bytes)
+		error(99, "Error: Can't write to %s\n", argv[2]);
 }
 
-/**
- * write_err - error handler for a write error
- *
- * @fd1: first descriptor to close
- * @fd2: second descriptor to close
- * @filename: filename prompting the error
- *
- * Return: 99
- */
-int write_err(int fd1, int fd2, char *filename)
-{
-	dprintf(STDERR_FILENO, "Error: Can't write to %s\n", filename);
-	close_errchk(fd1);
-	close_errchk(fd2);
-	return (99);
-}
+if (read_bytes == -1) /* vérif si une erreur de lecture c'est produite */
+error(98, "Error: Can't read from file %s\n", argv[1]);
 
-/**
- * read_err - error handler for a read error
- *
- * @fd1: first descriptor to close
- * @fd2: second descriptor to close
- * @filename: filename prompting the error
- *
- * Return: 98
- */
-int read_err(int fd1, int fd2, char *filename)
-{
-	dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", filename);
-	close_errchk(fd1);
-	close_errchk(fd2);
-	return (98);
-}
+if (close(fd_from) == -1) /* close source file */
+error(100, "Error: Can't close fd %d\n", argv[1]);
 
-/**
- * main - copy one file to another, new file with perms 664
- * usage - cp file_from file_to
- *
- * @ac: number of arg
- * @av: list of args
- *
- * Return: 97 if incorrect num of args
- * 98 if file_from does not exist or unreadable
- * 99 if write fails
- * 100 if file close fails
- * 0 otherwise
- */
-int main(int ac, char *av[])
-{
-	char buf[1024];
-	int lenr, lenw, file_from, file_to, err;
+if (close(fd_to) == -1) /* close destination file */
+error(100, "Error: Can't close fd %d\n", argv[2]);
 
-	if (ac != 3)
-	{
-		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
-		return (97);
-	}
-	file_from = open(av[1], O_RDONLY);
-	if (file_from == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n",
-			av[1]);
-		return (98);
-	}
-	file_to = open(av[2], O_WRONLY | O_CREAT | O_TRUNC,
-		       S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
-	if (file_to == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", av[2]);
-		close_errchk(file_from);
-		return (99);
-	}
-	do {
-		lenr = read(file_from, buf, 1024);
-		if (lenr == -1)
-			return (read_err(file_from, file_to, av[1]));
-		lenw = write(file_to, buf, lenr);
-		if (lenw == -1 || lenw != lenr)
-			return (write_err(file_from, file_to, av[2]));
-	} while (lenr == 1024);
-	err = close_errchk(file_from);
-	err += close_errchk(file_to);
-	if (err != 0)
-		return (100);
-	return (0);
+return (0);
 }
