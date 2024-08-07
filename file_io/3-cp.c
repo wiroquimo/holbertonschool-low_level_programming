@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
 			dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", ffrom);
 		else if (clt == -1)
 			dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fto);
-		exit(99);
+		exit(100);
 	}
 	return (0);
 }
