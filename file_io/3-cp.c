@@ -27,19 +27,12 @@ int main(int argc, char *argv[])
 		exit(98);
 	}
 	fto = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, 0664);
-	if (fto == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
-		exit(99);
-	}
 	while ((rd = read(ffrom, buff, BUFSIZ)) > 0)
-	{
-		if (write(fto, buff, rd) != rd)
+		if (fto == -1 || (write(fto, buff, rd) != rd))
 		{
 			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
-			exit(100);
+			exit(99);
 		}
-	}
 	if (rd == -1)
 	{
 		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
