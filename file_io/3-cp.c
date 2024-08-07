@@ -52,7 +52,7 @@ void exit_100(int fd)
 int main(int argc, char **argv)
 {
 	char buffer[1024];
-	ssize_t fd_dest_open = 0, fd_src_open = 0, w = 0, r = 0, fd_dest_close = 0, fd_src_close = 0;
+	ssize_t fd_dest_open = 0, fd_src_open = 0, w = 0, r = 0;
 
 	if (argc != 3)
 		exit_97();
@@ -75,12 +75,10 @@ int main(int argc, char **argv)
 	if (r == -1)
 		exit_98(argv[1]);
 
-	fd_src_close = close(fd_src_open);
-	if (fd_src_close == -1)
+	if (close(fd_src_open) == -1)
 		exit_100(fd_src_open);
 
-	fd_dest_close = close(fd_dest_open);
-	if (fd_dest_close == -1)
+	if (close(fd_src_open) == -1)
 		exit_100(fd_dest_open);
 
 	return (0);
