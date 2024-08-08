@@ -58,21 +58,22 @@ int main(int argc, char **argv)
 		exit_97();
 
 	fd_src = open(argv[1], O_RDONLY);
-	bytes_read = read(fd_src, buffer, 1024);
+	if (fd_src == -1)
+		exit_98(argv[1]);
 
 	fd_dest = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	if (fd_dest == -1)
+		exit_99(argv[2]);
 
-	do {
-		if ((fd_src == -1) || (bytes_read == -1))
-			exit_98(argv[1]);
-
+	while (bytes_read = read(fd_src, buffer, 1024) > 0)
+	{
 		bytes_written = write(fd_dest, buffer, bytes_read);
-		if ((fd_dest == -1) || (bytes_written < bytes_read))
+		if (bytes_written < bytes_read)
 			exit_99(argv[2]);
+	}
 
-		bytes_read = read(fd_src, buffer, 1024);
-		fd_dest = open(argv[2], O_WRONLY | O_APPEND);
-	} while (bytes_read > 0);
+	if (bytes_read == -1)
+		exit_98(argv[1]);
 
 	if (close(fd_src) == -1)
 		exit_100(fd_src);
