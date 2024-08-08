@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     if (fto == -1)
     {
         dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
-        close(ffrom); // Close the source file before exiting
+        close(ffrom);
         exit(99);
     }
     while ((rd = read(ffrom, buff, BUFSIZ)) > 0)
@@ -44,12 +44,12 @@ int main(int argc, char *argv[])
             exit(99);
         }
     }
-    if (rd == -1) // Check if read failed
+    if (rd == -1)
     {
         dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
         close(ffrom);
         close(fto);
-        exit(98); // Exit with code 98 for read failure
+        exit(98);
     }
     clf = close(ffrom);
     clt = close(fto);
