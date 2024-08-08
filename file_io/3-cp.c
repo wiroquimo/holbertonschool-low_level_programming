@@ -4,81 +4,62 @@
 #include <fcntl.h>
 
 /**
- * exit_97 - exit status 97
- */
-void exit_97(void)
-{
-	dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
-	exit(97);
-}
-
-/**
- * exit_98 - exit status 98
- * @str: name of file
- */
-void exit_98(char *str)
-{
-	dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", str);
-	exit(98);
-}
-
-/**
- * exit_99 - exit status 99
- * @str: name of file
- */
-void exit_99(char *str)
-{
-	dprintf(STDERR_FILENO, "Error: Can't write to %s\n", str);
-	exit(99);
-}
-
-/**
- * exit_100 - exit status 100
- * @fd: name of file
- */
-void exit_100(int fd)
-{
-	dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
-	exit(100);
-}
-
-/**
- * main - copies the contents of one file to another
- * @argc: integer number of arguments
- * @argv: pointer to string arguments
+ * main - copies the content of one file to another
+ * @argc: argument count
+ * @argv: argument vector
  *
- * Return: 0 on success, or one of 97, 98, 99, 100 on failure
+ * Return: 0 if success
  */
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
-	char buffer[1024];
-	ssize_t fd_src = 0, fd_dest = 0, bytes_read = 0, bytes_written = 0;
+    int ffrom, fto, rd;
+    ssize_t clf, clt;
+    char buff[BUFSIZ];
 
-	if (argc != 3)
-		exit_97();
-
-	fd_src = open(argv[1], O_RDONLY);
-	bytes_read = read(fd_src, buffer, 1024);
-
-	fd_dest = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, 0664);
-
-	do {
-		if ((fd_src == -1) || (bytes_read == -1))
-			exit_98(argv[1]);
-
-		bytes_written = write(fd_dest, buffer, bytes_read);
-		if ((fd_dest == -1) || (bytes_written < bytes_read))
-			exit_99(argv[2]);
-
-		bytes_read = read(fd_src, buffer, 1024);
-		fd_dest = open(argv[2], O_WRONLY | O_APPEND);
-	} while (bytes_read > 0);
-
-	if (close(fd_src) == -1)
-		exit_100(fd_src);
-
-	if (close(fd_dest) == -1)
-		exit_100(fd_dest);
-
-	return (0);
+    if (argc != 3)
+    {
+        dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
+        exit(97);
+    }
+    ffrom = open(argv[1], O_RDONLY);
+    if (ffrom == -1)
+    {
+        dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
+        exit(98);
+    }
+    fto = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, 0664);
+    if (fto == -1)
+    {
+        dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
+        close(ffrom); // Close the source file before exiting
+        exit(99);
+    }
+    while ((rd = read(ffrom, buff, BUFSIZ)) > 0)
+    {
+        if (write(fto, buff, rd) != rd)
+        {
+            dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
+            close(ffrom);
+            close(fto);
+            exit(99);
+        }
+    }
+    if (rd == -1) // Check if read failed
+    {
+        dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
+        close(ffrom);
+        close(fto);
+        exit(98); // Exit with code 98 for read failure
+    }
+    clf = close(ffrom);
+    clt = close(fto);
+    if (clf == -1 || clt == -1)
+    {
+        if (clf == -1)
+            dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", ffrom);
+        if (clt == -1)
+            dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fto);
+        exit(100);
+    }
+    return (0);
 }
