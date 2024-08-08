@@ -65,7 +65,7 @@ int main(int argc, char **argv)
 	if (fd_dest == -1)
 		exit_99(argv[2]);
 
-	while (bytes_read = read(fd_src, buffer, 1024) > 0)
+	while ((bytes_read = read(fd_src, buffer, 1024)) > 0)
 	{
 		bytes_written = write(fd_dest, buffer, bytes_read);
 		if (bytes_written < bytes_read)
