@@ -63,17 +63,13 @@ int main(int argc, char **argv)
 		exit_98(argv[1]);
 
 	fd_dest_open = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, 0664);
-	if (fd_dest_open == -1)
-		exit_99(argv[2]);
-
 	r = read(fd_src_open, buffer, 1024);
 	do {
 		if (r == -1)
 			break;
 
 		w = write(fd_dest_open, buffer, r);
-
-		if (w != r)
+		if ((fd_dest_open == -1) || (w != r))
 			exit_99(argv[2]);
 
 		r = read(fd_src_open, buffer, 1024);
