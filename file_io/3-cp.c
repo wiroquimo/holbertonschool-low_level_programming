@@ -61,7 +61,6 @@ int main(int argc, char **argv)
 	r = read(fd_src, buffer, 1024);
 
 	fd_dest = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, 0664);
-	w = write(fd_dest, buffer, r);
 
 	do {
 		if ((fd_src == -1) || (r == -1))
