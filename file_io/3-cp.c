@@ -64,11 +64,27 @@ int main(int argc, char **argv)
 
 	do {
 		if ((fd_src == -1) || (bytes_read == -1))
+		{
+			if (close(fd_src) == -1)
+				exit_100(fd_src);
+
+			if (close(fd_dest) == -1)
+				exit_100(fd_dest);
+
 			exit_98(argv[1]);
+		}
 
 		bytes_written = write(fd_dest, buffer, bytes_read);
 		if ((fd_dest == -1) || (bytes_written < bytes_read))
+		{
+			if (close(fd_src) == -1)
+				exit_100(fd_src);
+
+			if (close(fd_dest) == -1)
+				exit_100(fd_dest);
+
 			exit_99(argv[2]);
+		}
 
 		bytes_read = read(fd_src, buffer, 1024);
 		fd_dest = open(argv[2], O_WRONLY | O_APPEND);
