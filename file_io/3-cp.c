@@ -52,35 +52,33 @@ void exit_100(int fd)
 int main(int argc, char **argv)
 {
 	char buffer[1024];
-	ssize_t fd_dest = 0, fd_src = 0, w = 0, r = 0, f_close = 0;
+	ssize_t fd_src, fd_dest, bytes_read, bytes_written;
 
 	if (argc != 3)
 		exit_97();
 
 	fd_src = open(argv[1], O_RDONLY);
-	r = read(fd_src, buffer, 1024);
+	if (fd_src == -1)
+		exit_98(argv[1]);
 
 	fd_dest = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	if (fd_dest == -1)
+		exit_99(argv[2]);
 
-	do {
-		if ((fd_src == -1) || (r == -1))
-			exit_98(argv[1]);
-
-		w = write(fd_dest, buffer, r);
-		if ((fd_dest == -1) || (w != r))
+	while ((bytes_read = read(fd_src, buffer, sizeof(buffer))) > 0)
+	{
+		bytes_written = write(fd_dest, buffer, bytes_read);
+		if (bytes_written != bytes_read)
 			exit_99(argv[2]);
+	}
 
-		r = read(fd_src, buffer, 1024);
-		fd_dest = open(argv[2], O_WRONLY | O_APPEND);
-	} while (r > 0);
+	if (bytes_read == -1)
+		exit_98(argv[1]);
 
-
-	f_close = close(fd_src);
-	if (f_close == -1)
+	if (close(fd_src) == -1)
 		exit_100(fd_src);
 
-	f_close = close(fd_dest);
-	if (fd_dest == -1)
+	if (close(fd_dest) == -1)
 		exit_100(fd_dest);
 
 	return (0);
