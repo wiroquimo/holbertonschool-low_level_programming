@@ -53,7 +53,6 @@ int main(int argc, char **argv)
 {
 	char buffer[1024];
 	ssize_t fd_src = 0, fd_dest = 0, bytes_read = 0, bytes_written = 0;
-	ssize_t fd_close = 0;
 
 	if (argc != 3)
 		exit_97();
@@ -75,12 +74,10 @@ int main(int argc, char **argv)
 		fd_dest = open(argv[2], O_WRONLY | O_APPEND);
 	} while (bytes_read > 0);
 
-	fd_close = close(fd_src);
-	if (fd_close == -1)
+	if (close(fd_src) == -1)
 		exit_100(fd_src);
 
-	fd_close = close(fd_dest);
-	if (fd_close == -1)
+	if (close(fd_dest) == -1)
 		exit_100(fd_dest);
 
 	return (0);
