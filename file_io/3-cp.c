@@ -58,16 +58,14 @@ int main(int argc, char **argv)
 		exit_97();
 
 	fd_src = open(argv[1], O_RDONLY);
-	if (fd_src == -1)
-		exit_98(argv[1]);
-
 	bytes_read = read(fd_src, buffer, 1024);
-	if (bytes_read == -1)
-		exit_98(argv[1]);
 
 	fd_dest = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, 0664);
 
 	do {
+		if ((fd_src == -1) || (bytes_read == -1))
+			exit_98(argv[1]);
+
 		bytes_written = write(fd_dest, buffer, bytes_read);
 		if ((fd_dest == -1) || (bytes_written < bytes_read))
 			exit_99(argv[2]);
