@@ -32,6 +32,6 @@ int _atoi(char *s)
 		mul *= 10;
 		s--;
 	}
-	sign *= num;
-	return (sign);
+
+	return (sign * num);
 }
