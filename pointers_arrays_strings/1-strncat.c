@@ -1,4 +1,4 @@
- #include "main.h"
+#include "main.h"
 
 /**
  * _strlen - function that returns the length of a string
@@ -6,17 +6,18 @@
  *
  * Return: the length of s
  */
+
 int _strlen(char *s)
 {
-    int length = 0;
+	int length = 0;
 
-    while (s[length])
-        length++;
+	while (s[length])
+		length++;
 
-    return (length);
+	return (length);
 }
 
- /**
+/**
  * _strncat - Function that concatenates two strings. The _strncat function is
  * similar to the _strcat function, except that:
  *  - it will use at most n bytes from src
@@ -29,15 +30,15 @@ int _strlen(char *s)
  */
 char *_strncat(char *dest, char *src, int n)
 {
-    int i, j;
+	int i, j;
 
-    i = _strlen(dest);
-    j = 0;
-    while ((*(src + j) != '\0') && (j < n))
-    {
-        *(dest + i + j) = *(src + j);
-        j++;
-    }
+	i = _strlen(dest);
+	j = 0;
+	while ((*(src + j) != '\0') && (j < n))
+	{
+		*(dest + i + j) = *(src + j);
+		j++;
+	}
 
-    return (dest);
+	return (dest);
 }
