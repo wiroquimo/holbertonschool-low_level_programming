@@ -32,5 +32,5 @@ int _atoi(char *s)
 	}
 
 	/* answer calculation */
-	return (sign * number);
+	return ((int)(sign * number));
 }
