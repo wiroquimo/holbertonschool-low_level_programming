@@ -10,28 +10,28 @@
 int _atoi(char *s)
 {
 	int sign = 1;
-	unsigned int mul = 1, num = 0;
+	unsigned int multiplier = 1, number = 0;
 
-	while (*s != '\0')
-	{
+    /* sign calculation*/
+
+	while (*s)
+	{   
 		if (*s == '-')
-		{
 			sign *= -1;
-		}
+		/*else if current character of s is a digit and next character of s is not a digit */
 		else if (*s >= '0' && *s <= '9' && !(*(s + 1) >= '0' && *(s + 1) <= '9'))
-		{
-			s++;
-			break;
-		}
+			break; /* break the cycle */
 		s++;
 	}
-	s--;
+    
+	/* number calculation */
 	while (*s >= '0' && *s <= '9')
 	{
-		num += (*s - '0') * mul;
-		mul *= 10;
+		number += (*s - '0') * multiplier;
+		multiplier *= 10;
 		s--;
 	}
 
-	return (sign * num);
+    /* answer calculation */
+	return (sign * number);
 }
