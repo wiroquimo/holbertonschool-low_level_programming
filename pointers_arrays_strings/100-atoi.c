@@ -12,18 +12,18 @@ int _atoi(char *s)
 	int sign = 1;
 	unsigned int multiplier = 1, number = 0;
 
-    /* sign calculation*/
+	/* sign calculation*/
 
 	while (*s)
-	{   
+	{
 		if (*s == '-')
 			sign *= -1;
-		/*else if current character of s is a digit and next character of s is not a digit */
-		else if (*s >= '0' && *s <= '9' && !(*(s + 1) >= '0' && *(s + 1) <= '9'))
-			break; /* break the cycle */
+		/* else if current character is a digit and next character is not a digit*/
+		else if ((*s >= '0' && *s <= '9') && !(*(s + 1) >= '0' && *(s + 1) <= '9'))
+			break;
 		s++;
 	}
-    
+
 	/* number calculation */
 	while (*s >= '0' && *s <= '9')
 	{
@@ -32,6 +32,6 @@ int _atoi(char *s)
 		s--;
 	}
 
-    /* answer calculation */
+	/* answer calculation */
 	return (sign * number);
 }
