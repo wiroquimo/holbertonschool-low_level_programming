@@ -10,28 +10,29 @@
 int _atoi(char *s)
 {
 	int sign = 1;
-	unsigned int mul = 1, num = 0;
+	unsigned int num = 0;
 
-	while (*s != '\0')
-	{
-		if (*s == '-')
-		{
-			sign *= -1;
-		}
-		else if (*s >= '0' && *s <= '9' && !(*(s + 1) >= '0' && *(s + 1) <= '9'))
-		{
-			s++;
-			break;
-		}
+	/* Skip leading whitespace or non-digit characters */
+	while (*s == ' ' || *s == '\t')  /*  Handle whitespace */
 		s++;
+
+	/* Handle possible sign at the beginning */
+	if (*s == '-')
+	{
+		sign = -1;
+		s++;  /* Move past the sign */
 	}
-	s--;
+	else if (*s == '+')
+	{
+		s++;  /* Move past the sign */
+	}
+
+	/* Convert the digits to an integer */
 	while (*s >= '0' && *s <= '9')
 	{
-		num += (*s - '0') * mul;
-		mul *= 10;
-		s--;
+		num = num * 10 + (*s - '0');  /* Build the number */
+		s++;
 	}
-	sign *= num;
-	return (sign);
+
+	return (sign * num);  /* Apply the sign and return the result */
 }
