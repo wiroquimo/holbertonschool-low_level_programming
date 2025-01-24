@@ -13,7 +13,6 @@ int _atoi(char *s)
 	unsigned int multiplier = 1, number = 0;
 
 	/* sign calculation*/
-
 	while (*s)
 	{
 		if (*s == '-')
