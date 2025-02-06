@@ -11,9 +11,8 @@ void print_rev(char *s)
 {
 	char *aux = s;
 
-	while (*aux++)
-		;
-	aux--;
+	while (*aux)
+		aux++;
 
 	while (aux > s)
 		_putchar(*(--aux));
