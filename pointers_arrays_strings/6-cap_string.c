@@ -8,20 +8,12 @@
  *
  * Return: pointer to char to the string capitalized
  */
+
 char *cap_string(char *s)
 {
 	char *ans = s;
 
-	if (*s >= 'a' && *s <= 'z')
-	{
-		*s -= ('a' - 'A');
-		/* *s = *s - ('a' - 'A'); */
-		/* *s -= 32; */
-		/* s[0] = s[0] - 32; */
-		s++;
-	}
-
-	for (; *s != '\0'; s++)
+	while (*s)
 	{
 		if ((*s == '\t' || *s == '\n' || *s == ' '
 			 || *s == '!' || *s == '\"' || *s == '('
@@ -29,11 +21,13 @@ char *cap_string(char *s)
 			 || *s == ';' || *s == '?' || *s == '{'
 			 || *s == '}') && (*(s + 1) >= 'a' && *(s + 1) <= 'z'))
 		{
-			*(s + 1) -= ('a' - 'A');
-			/* *(s + 1) = *(s + 1) - ('a' - 'A'); */
-			/* *(s + i + 1) = *(s + i + 1) - ('a' - 'A'); */
+			*(s + 1) -= ' ';
 		}
+		s++;
 	}
+
+	if (*ans >= 'a' && *ans <= 'z')
+		*ans -= ' ';
 
 	return (ans);
 }
