@@ -7,5 +7,7 @@ char *_strcat(char *, char *);
 char *_strncat(char *, char *, int);
 char *cap_string(char *);
 int _atoi(char *);
+char *cap_string(char *);
+char *rot13(char *);
 
 #endif
