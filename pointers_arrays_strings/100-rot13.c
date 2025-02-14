@@ -18,7 +18,7 @@ char *rot13(char *s)
 		if ((*aux >= 'a' && *aux <= 'z') || (*aux >= 'A' && *aux <= 'Z'))
 		{
 			i = (*aux >= 'A' && *aux <= 'Z');
-			*aux = (*aux - bases[i] + 13) % 26 + bases[i];
+			*aux = (*aux - *(bases + i) + 13) % 26 + *(bases + i);
 		}
 		aux++;
 	}
